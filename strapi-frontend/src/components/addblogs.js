@@ -4,37 +4,30 @@ class Addblog extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            blogtitle: "",
+            blogtitile: "",
             blogcontent: "",
             featuredimage: "",
             categories: ""
         }
     }
-    changeHandler =(event)=>{
-        this.setState({
-            blogtitle:event.target.value,
-            blogcontent:event.target.value,
-            featuredimage:event.target.value,
-            category:event.target.value
-        });
+    changeHandler =(e)=>{
+        this.setState({[e.target.name]:e.target.value});
     }
-
-    submitHandler = async e => {
-        e.preventdefault();
-        try {
-            const response = axios.post("http://localhost:1337/blogs",
-             this.state);
-            console.lofg(response);
+    submitHandler = (e) => {
+        e.preventDefault()
+        console.log(this.state)
+        axios.post("http://localhost:1337/Blogs",this.state)
+        .then(response =>{
+            console.log(response);
             alert("Blog added sucessfully")
-
-        }
-        catch (error) {
+        })
+        .catch(error=>{
             console.log(error)
-        }
-
+        }) 
+            
     }
     render() {
-        const { error,blogtitle, blogcontent, featuredimage, categories } = this.state
+        const { error,blogtitile, blogcontent, featuredimage, categories } = this.state
         if (error) {
             return <div>An error occured: {error.message}</div>;
           }
@@ -42,10 +35,9 @@ class Addblog extends Component {
             <div>
                 <form onSubmit={this.submitHandler}>
                         <h1>Add Blog</h1>
-                        <div className="form-group">
                             <div className="form-group">
                                 <label className="col-sm-2 col-form-label">Blog Title</label>
-                                <input type="text" className="form-control-text" placeholder="blog title" name="blogtitle" value={blogtitle} onChange={this.changeHandler} />
+                                <input type="text" className="form-control-text" placeholder="blog title" name="blogtitle" value={blogtitile} onChange={this.changeHandler} />
                             </div>
                             <div className="form-group">
                                 <label>Example textarea</label>
@@ -59,8 +51,7 @@ class Addblog extends Component {
                                 <label className="col-sm-2 col-form-label">Which Category</label>
                                 <input type="text" className="orm-control-plaintext" placeholder="type category" name="categories" value={categories} onChange={this.changeHandler} />
                             </div>
-                            <input type="submit" className="btn btn-primary" value="Add Blog" />
-                        </div>
+                            <button type="submit" className="btn btn-primary" >Add Blog</button>
                 </form>
             </div>
         )

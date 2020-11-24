@@ -11,7 +11,7 @@ class Bloglist extends Component{
     }
 
     componetWillMount(){
-        axios.get('http://localhost:1337/blogs').then((response)=>{
+        axios.get('http://localhost:1337/Blogs').then((response)=>{
             if(response.status >=400){
                 throw new Error("No respnse from server")
             }
